@@ -3,16 +3,18 @@ import { useEffect, useState } from 'react';
 import { useForm, Controller } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-
-import { Label, Button, PasswordStrength } from '../../components';
+import { Link, useNavigate } from 'react-router-dom';
+import { usePopup } from '../../hooks/usePopup';
+import { Label, Button, PasswordStrength, ForgotPassword } from '../../components';
 
 import Logo from '../../icons/logo.svg?react';
 import PasswordIcon from '../../icons/password-icon.svg?react';
 import TextIcon from '../../icons/text-icon.svg?react';
 import EmptyCheckIcon from '../../icons/check-blank-icon.svg?react';
 import FilledCheckIcon from '../../icons/check-fill-icon.svg?react';
+import BackArrowIcon from '../../icons/back-arrow-icon.svg?react';
 import PasswordImage from '../../assets/password-image.webp';
-import { useNavigate } from 'react-router-dom';
+
 
 
 type LoginFormInputs = {
@@ -24,7 +26,7 @@ const login_schema = yup.object({
   password: yup
     .string()
     .required('Password is required')
-    .min(8, 'Password must be at least 8 characters'),
+    .min(6, 'Password must be at least 8 characters'),
 }).required();
 
 
@@ -34,6 +36,8 @@ const Password = () => {
   const [show_password, set_show_password] = useState<boolean>(false);
   const [remember_me, set_remember_me] = useState<boolean>(Boolean(puesdo_password));
   const navigate = useNavigate();
+
+  const {setOpen,setPopUp} = usePopup();
 
    const {
     handleSubmit,
@@ -53,7 +57,12 @@ const Password = () => {
       window.localStorage.setItem('wallet-password',password);
       return;
     }
-    window.localStorage.clear();
+    window.localStorage.removeItem('wallet-password');
+  }
+  const handleForgotPassword = () =>{
+    console.log('testing popup')
+    setPopUp(<ForgotPassword type="email" />);
+    setOpen(true);
   }
   const onSubmit = (data: LoginFormInputs) => {
     console.log(data);
@@ -64,7 +73,7 @@ const Password = () => {
       if(remember_me){
         window.localStorage.setItem('wallet-password',password);
       }
-      else window.localStorage.clear();
+      else window.localStorage.removeItem('wallet-password');
       navigate('/dashboard')
     }, 2000);
   }
@@ -77,8 +86,12 @@ const Password = () => {
   return (
     <section className='dark:bg-black bg-white flex flex-col md:flex-row  w-screen h-screen'>
       <div className="dark:bg-purple-900 bg-purple-50 w-full md:w-1/2 h-full md:h-screen flex flex-col align-center overflow-hidden">
-        <div className='flex justify-center items-center py-3 md:py-4'>
-          <Logo/>
+        <div className='relative flex justify-center items-center py-3 md:py-4'>
+          <Link to="/login" className='absolute flex font-semibold items-center left-4 text-blue-400 text-sm leading-none'>
+            <BackArrowIcon className='active-icon-blue-400' />
+            <span className='h-[24px] flex justify-center items-center pt-[2px]'>Back</span>
+          </Link>
+          <Logo className='m'/>
         </div>
         <div className='flex justify-center items-center flex-1 origin-center zoom_in_out'>
           <picture>
@@ -91,7 +104,7 @@ const Password = () => {
         <div className='flex flex-1 flex-col gap-4 justify-center items-center'>
           <form className='w-full max-w-[450px] h-full sm:max-h-50 flex flex-col items-between gap-6 pb-4'
             onSubmit={handleSubmit(onSubmit)}>
-              <Label className='relative w-full max-w-[400px]'>
+              <Label className='relative w-full max-w-[450px]'>
                 <span className='dark:text-white text-black text-xs'>Password</span>
                 <Controller
                   name="password"
@@ -104,7 +117,7 @@ const Password = () => {
                         className='border-1 border-gray-150 h-[45px] w-full rounded-sm dark:text-white text-black text-sm px-3 py-2 cursor-pointer '
                         {...field}
                       />
-                      <Button type="button" className='absolute z-1 top-1/2 right-3 -translate-y-1/2 cursor-pointer' onClick={()=> set_show_password(!show_password)}>
+                      <Button type="button" className='absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer' onClick={()=> set_show_password(!show_password)}>
                         {show_password ? 
                           <TextIcon 
                           />:
@@ -118,7 +131,7 @@ const Password = () => {
                 <PasswordStrength password={password}/>
                 <span className='text-red-500 text-xs text-center'>{errors?.password?.message}</span>
               </Label>
-                <div className='-mt-5 w-full max-w-[400px] flex justify-between items-center'>
+                <div className='-mt-5 w-full max-w-[450px] flex justify-between items-center'>
                   <label className='relative flex items-center gap-2 cursor-pointer'>
                     <span>
                       {remember_me ? 
@@ -129,9 +142,9 @@ const Password = () => {
                     <input type="checkbox" className='absolute opacity-0' checked={remember_me} onChange={updateRememberMe}/>
                     <span className='dark:text-white text-black text-xs'>Remember me</span>
                   </label>
-                  <Button type="button" className='text-blue-400 text-600 text-xs cursor-pointer'>Forgot password?</Button>
+                  <Button onClick={handleForgotPassword} type="button" className='text-blue-400 text-600 text-xs cursor-pointer'>Forgot password?</Button>
                 </div>
-              <Button type="submit" isLoading={is_loading} className="bg-purple-400 text-white w-full max-w-[400px] text-semi-bold text-sm p-2 rounded-sm cursor-pointer text-center flex justify-center items-center mt-auto">
+              <Button type="submit" isLoading={is_loading} className="bg-purple-400 text-white w-full max-w-[450px] text-semi-bold text-sm p-2 rounded-sm cursor-pointer text-center flex justify-center items-center mt-auto">
                 Login
               </Button>
           </form>

@@ -192,6 +192,18 @@ body {
     fill: var(--color-purple-400);
   }
 }
+.active-icon-blue-400 {
+  & > path{
+    stroke: var(--color-blue-400);
+  }
+}
+
+.animate-popup-d{
+  animation: animate_popup_d .5s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
+}
+.animate-popup-m{
+  animation: animate_popup_m .5s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
+}
 
 @keyframes zoom_in_out {
     0% {
@@ -203,6 +215,33 @@ body {
     100% {
         transform: scale(100%);
     }
+}
+
+@keyframes animate_popup_d {
+  0% {
+    scale: 0%;
+    translate: 0 0;
+  }
+  50%{
+    scale: 110%;
+  }
+  100%{
+    scale: 100%
+  }
+
+}
+@keyframes animate_popup_m {
+  0% {
+    translate: 0 50dvh;
+    scale:100%;
+  }
+  50%{
+    translate: 0 5dvh;
+  }
+  100%{
+    translate: 0 0;
+  }
+
 }
 
 

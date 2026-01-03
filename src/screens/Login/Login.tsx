@@ -34,7 +34,7 @@ const login_schema = yup.object({
 
 
 const Login = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [is_loading, set_is_loading] = useState<boolean>(false);
   const navigate = useNavigate();
    const {
     handleSubmit,
@@ -49,7 +49,7 @@ const Login = () => {
 
   const onSubmit = (data: LoginFormInputs) => {
     console.log(data);
-    setIsLoading(true);
+    set_is_loading(true);
     // Simulate an async operation
     setTimeout(() => {
       navigate('/password');
@@ -72,7 +72,7 @@ const Login = () => {
         <div className='flex flex-1 flex-col gap-4 justify-center items-center'>
           <form className='w-full max-w-[450px] flex flex-col items-center gap-6'
             onSubmit={handleSubmit(onSubmit)}>
-              <Label className='w-full max-w-[400px]'>
+              <Label className='w-full max-w-[450px]'>
                   <span className='dark:text-white text-black text-xs'>Mobile number</span>
                   <Controller
                     name="phone"
@@ -92,11 +92,11 @@ const Login = () => {
                   />
                   <span className='text-red-500 text-xs text-center'>{errors?.phone?.message}</span>
               </Label>
-              <Button type="submit" isLoading={isLoading} className="bg-purple-400 text-white w-full max-w-[400px] text-semi-bold text-sm p-2 rounded-sm cursor-pointer text-center flex justify-center items-center">
+              <Button type="submit" isLoading={is_loading} className="bg-purple-400 text-white w-full max-w-[450px] text-semi-bold text-sm p-2 rounded-sm cursor-pointer text-center flex justify-center items-center">
                 Continue
               </Button>
           </form>
-          <div className='w-full max-w-[400px] flex gap-2 flex-col items-center justify-center'>
+          <div className='w-full max-w-[450px] flex gap-2 flex-col items-center justify-center'>
             <div className='w-full flex gap-4 items-center'>
               <span className='flex flex-1 border-gray-100 [border-block-end-width:1px] [border-block-end-style:solid]'></span>
               <span className='text-xs text-gray-300'>or continue using</span>
