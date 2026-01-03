@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
@@ -24,7 +25,7 @@ const login_schema = yup.object({
   phone: yup
     .string()
     .required('Phone number is required')
-    .test('is-valid-phone', 'Incomplete or invalid phone number', (value) => {
+    .test('is-valid-phone', 'Invalid phone number', (value) => {
       if (!value) return false;
       return (
         parsePhoneNumberFromString(value)?.isValid() ?? false
@@ -34,6 +35,7 @@ const login_schema = yup.object({
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
    const {
     handleSubmit,
     formState: { errors },
@@ -50,7 +52,7 @@ const Login = () => {
     setIsLoading(true);
     // Simulate an async operation
     setTimeout(() => {
-      setIsLoading(false);
+      navigate('/password');
     }, 2000);
   }
   return (
@@ -80,7 +82,7 @@ const Login = () => {
                         defaultCountry={'ng'}
                         placeholder="7X-XXXXXXX"
                         inputStyle={{width:'100%',height: '45px'}}
-                        style={{height: '45px'}}
+                        style={{height: '45px', border:'1px solid #E1E3ED'}}
                         {...field}
                         inputProps={{
                           id:'phone'
