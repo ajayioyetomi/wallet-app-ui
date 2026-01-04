@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState, type ReactNode} from 'react';
+import { createContext, useEffect, useState, type ReactNode} from 'react';
 import { createPortal } from 'react-dom';
 
 
@@ -46,8 +46,8 @@ const PopUpProvider = ({children}: PopUpChildren) => {
   }
 	useEffect(()=>{
 		const handleKeyboardEscape = (e: KeyboardEvent) =>{
-				let key = e.key.toLowerCase();
-				if(key === 'escape'){
+				let key = e.key;
+				if(key === 'Escape' || key === 'escape'){
 						setPopUp(<></>)
 						setOpen(false);
 				}
@@ -58,7 +58,6 @@ const PopUpProvider = ({children}: PopUpChildren) => {
 	useEffect(()=>{
 		const handleScreenWidth = () =>{
 			const width = window.innerWidth;
-			console.log(width,'width')
 			set_screen_width(width);
 		}
 		handleScreenWidth();

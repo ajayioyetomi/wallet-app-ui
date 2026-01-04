@@ -176,6 +176,7 @@ a:focus-visible,button:focus-visible, input:focus-visible,textarea:focus-visible
 
 body {
   margin: 0;
+  overflow: clip auto;
 }
 
 
@@ -247,5 +248,13 @@ body {
 
 
 @media (prefers-color-scheme: light) {
+  body{
+    background-color: var(--color-white);
+  }
+}
 
+@media (prefers-color-scheme: dark) {
+  body{
+    background-color: var(--color-white);
+  }
 }

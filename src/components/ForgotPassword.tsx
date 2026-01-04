@@ -20,13 +20,26 @@ type EmailPhoneInputs = {
 const email_schema = yup.object({
   inp: yup
     .string()
-    .required('Email is required'),
+    .required('Email is required')
+    .test('is-valid-email','Invalid email address',(value)=>{
+      if(!value) return false;
+      let is_valid_email = value.match(
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/
+      );
+      return is_valid_email ? true : false;
+
+    })
 }).required();
 
 const phone_schema = yup.object({
   inp: yup
     .string()
-    .required('Phone number is required'),
+    .required('Phone number is required')
+    .test('is-valid-phone', 'Invalid phone number', (value) => {
+      if (!value) return false;
+      return (
+        parsePhoneNumberFromString(value)?.isValid() ?? false
+      );}),
 }).required();
 
 
@@ -46,7 +59,7 @@ const ForgotPassword = ({type = "email"}:ForgotPasswordProps) => {
     formState: { errors },
     control,
     setValue,
-    watch
+    // watch
   } = useForm({
     resolver: yupResolver(password_type === "email" ? email_schema : phone_schema),
     defaultValues:{
@@ -64,6 +77,10 @@ const ForgotPassword = ({type = "email"}:ForgotPasswordProps) => {
   }
   const onSubmit = (data: EmailPhoneInputs) => {
     console.log(data,'data');
+    set_is_loading(true);
+    setTimeout(()=>{
+      set_is_loading(false);
+    },2000)
   }
 
   return (
@@ -85,20 +102,20 @@ const ForgotPassword = ({type = "email"}:ForgotPasswordProps) => {
           {
             password_type === "email" ?
             <Label className="w-full mb-10">
-            <span className='dark:text-white text-black text-xs'>Email</span>
-            <Controller
-              name="inp"
-              control={control}
-              render={({ field }) =>   
-                <input
-                  type="text"
-                  placeholder="e.g. email@example.com"  
-                  className='border-1 border-gray-150 h-[45px] w-full rounded-sm dark:text-white text-black text-sm px-3 py-2 cursor-pointer '
-                  {...field}
-                />
-              }
-            />
-             
+              <span className='dark:text-white text-black text-xs'>Email</span>
+              <Controller
+                name="inp"
+                control={control}
+                render={({ field }) =>   
+                  <input
+                    type="email"
+                    placeholder="e.g. email@example.com"  
+                    className='border-1 border-gray-150 h-[45px] w-full rounded-sm dark:text-white text-black text-sm px-3 py-2 cursor-pointer '
+                    {...field}
+                  />
+                }
+              />
+              <span className='text-red-500 text-xs text-center'>{errors?.inp?.message}</span>   
             </Label>:
             <Label className='w-full mb-10'>
               <span className='dark:text-white text-black text-xs'>Mobile number</span>
@@ -124,7 +141,7 @@ const ForgotPassword = ({type = "email"}:ForgotPasswordProps) => {
           <Button type="submit" isLoading={is_loading} className="bg-purple-400 text-white w-full text-semi-bold text-sm p-2 rounded-sm cursor-pointer text-center flex justify-center items-center">
             Send reset link
           </Button>
-          <Button type="submit" onClick={handleToggleType} isLoading={is_loading_type} className="bg-transparent text-blue-400 font-semibold w-full text-semi-bold text-sm p-2 cursor-pointer text-center flex justify-center items-center mt-4">
+          <Button type="button" onClick={handleToggleType} isLoading={is_loading_type} className="bg-transparent text-blue-400 font-semibold w-full text-semi-bold text-sm p-2 cursor-pointer text-center flex justify-center items-center mt-4">
             {
               password_type === "email" ?
               "Use mobile instead":

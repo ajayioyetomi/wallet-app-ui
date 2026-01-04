@@ -86,7 +86,7 @@ const Password = () => {
   return (
     <section className='dark:bg-black bg-white flex flex-col md:flex-row  w-screen h-screen'>
       <div className="dark:bg-purple-900 bg-purple-50 w-full md:w-1/2 h-full md:h-screen flex flex-col align-center overflow-hidden">
-        <div className='relative flex justify-center items-center py-3 md:py-4'>
+        <div className='relative flex justify-center items-center py-2'>
           <Link to="/login" className='absolute flex font-semibold items-center left-4 text-blue-400 text-sm leading-none'>
             <BackArrowIcon className='active-icon-blue-400' />
             <span className='h-[24px] flex justify-center items-center pt-[2px]'>Back</span>

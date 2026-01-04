@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useForm, Controller } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
@@ -58,7 +58,7 @@ const Login = () => {
   return (
     <section className='dark:bg-black bg-white flex flex-col md:flex-row  w-screen h-screen'>
       <div className="dark:bg-purple-900 bg-purple-50 w-full md:w-1/2 h-full md:h-screen flex flex-col align-center overflow-hidden">
-        <div className='flex justify-center items-center py-3 md:py-4'>
+        <div className='flex justify-center items-center py-2'>
           <Logo/>
         </div>
         <div className='flex justify-center items-center flex-1 origin-center zoom_in_out'>
@@ -113,6 +113,7 @@ const Login = () => {
                 <AppleLogo/> 
               </Button>
             </div>
+            <p className='w-full text-center text-sm text-black dark:text-white'><Link to="/register" className="w-full text-sm text-blue-400 text-semibold">I don't have an account?</Link></p>
           </div>
         </div>
       </div>
