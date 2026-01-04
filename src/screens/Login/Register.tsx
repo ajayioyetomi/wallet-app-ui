@@ -18,6 +18,7 @@ import BackArrowIcon from '../../icons/back-arrow-icon.svg?react';
 import PasswordIcon from '../../icons/password-icon.svg?react';
 import TextIcon from '../../icons/text-icon.svg?react';
 import Logo from '../../icons/logo.svg?react';
+import { useNotification } from "../../hooks/useNotification";
 
 
 type RegisterInputs = {
@@ -78,6 +79,7 @@ const Register = () => {
   const [show_password, set_show_password] = useState<boolean>(false);
   const [is_loading, set_is_loading] = useState<boolean>(false);
   const navigate = useNavigate();
+  const {setNotification,setOpenNotification} = useNotification()
   const {
     handleSubmit,
     formState: { errors },
@@ -107,12 +109,16 @@ const Register = () => {
       email:data.email
     }))
     setTimeout(() => {
+      setNotification({status:'success',message:'Registrated successfully'});
+      setOpenNotification(true);
+    }, 1000);
+    setTimeout(() => {
       navigate(`/otp?phone=${data.phone}`);
     }, 2000);
   }
 
   return (
-    <section className="dark:bg-black bg-white w-screen h-screen flex flex-col">
+    <section className="dark:bg-black bg-white w-screen min-h-screen flex flex-col">
         <div className='relative flex justify-center items-center pt-1'>
           <Link to="/login" className='absolute flex mt-1 font-semibold items-center left-4 text-blue-400 text-sm leading-none'>
             <BackArrowIcon className='active-icon-blue-400' />
@@ -143,7 +149,7 @@ const Register = () => {
                 />
                 <span className='text-red-500 text-xs text-center'>{errors?.name?.message}</span>   
               </Label>
-              <Label className='w-full max-w-[450px]'>
+              <Label className='w-full max-w-[500px]'>
                   <span className='dark:text-white text-black text-xs'>Mobile number</span>
                   <Controller
                     name="phone"
@@ -223,7 +229,7 @@ const Register = () => {
               <p className="text-xs text-red-500 text-left sm:text-center -mt-2">{errors?.accept?.message}</p>
               <div className="w-full mt-3">
                 <Button isLoading={is_loading} className="w-full bg-purple-400 text-white text-sm py-2 rounded-sm cursor-pointer flex justify-center items-center">Create a new account</Button>
-                <div className='w-full max-w-[450px] mt-4 flex gap-2 flex-col items-center justify-center'>
+                <div className='w-full max-w-[500px] mt-4 flex gap-2 flex-col items-center justify-center'>
                   <div className='w-full flex gap-4 items-center'>
                     <span className='flex flex-1 border-gray-100 [border-block-end-width:1px] [border-block-end-style:solid]'></span>
                     <span className='text-xs text-gray-300'>or continue using</span>

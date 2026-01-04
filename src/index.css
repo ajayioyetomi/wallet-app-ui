@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant dark (&:where(.dark, .dark *, [dark]));
 
 @theme {
   --color-purple-50: #F7F4FF;
@@ -211,6 +211,19 @@ body::-webkit-scrollbar{
   animation: animate_popup_m .5s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
 }
 
+.status-bg-success{
+  background-color: var(--color-green-100);
+}
+.status-bg-error{
+  color: var(--color-red-100);
+}
+.status-success{
+  color: var(--color-green-600);
+}
+.status-error{
+  color: var(--color-red-600);
+}
+
 .keyboard-shadow{
   box-shadow: none;
   @media screen and (width <= 500px) {
@@ -218,6 +231,10 @@ body::-webkit-scrollbar{
        box-shadow: 0px -6px 24px 0px #00000014;
     }
   }
+}
+
+.animate-notification{
+  animation: animate_notification .5s linear  forwards;
 }
 
 @keyframes zoom_in_out {
@@ -230,6 +247,16 @@ body::-webkit-scrollbar{
     100% {
         transform: scale(100%);
     }
+}
+
+@keyframes animate_notification {
+  0%{
+    translate: 100vw 0;
+  }
+  100%{
+    translate: 0 0;
+  }
+  
 }
 
 @keyframes animate_popup_d {

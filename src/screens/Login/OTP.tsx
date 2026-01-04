@@ -10,6 +10,7 @@ import DeleteIcon from '../../icons/delete-icon.svg?react';
 import Logo from '../../icons/logo.svg?react';
 import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useNotification } from "../../hooks/useNotification";
 
 const otp_scheme = yup.object({
   otp: yup
@@ -28,6 +29,7 @@ const OTP = () => {
   const [temp_otp, set_temp_otp] = useState<string>('');
   const [is_loading, set_is_loading] = useState<boolean>(false);
   const navigate = useNavigate();
+  const {setOpenNotification,setNotification} = useNotification()
   const [searchParams] = useSearchParams();
   const temp_data = JSON.parse(window.localStorage.getItem('wellet-app-data') || '{}');
   let temp_phone = '+23480';
@@ -39,7 +41,6 @@ const OTP = () => {
     handleSubmit,
     formState:{errors},
     control,
-    watch,
     setValue
   } = useForm({
     resolver: yupResolver(otp_scheme),
@@ -69,6 +70,9 @@ const OTP = () => {
     const otp = data.otp;
     if(otp.length === 7 && otp.charAt(3) === '-'){
       set_is_loading(true);
+      setTimeout(()=>{
+        setNotification({status:"success",message:`Succesful, no action required on you end`})
+      },1000)
       setTimeout(()=>{
         set_is_loading(false);
         navigate('/dashboard')

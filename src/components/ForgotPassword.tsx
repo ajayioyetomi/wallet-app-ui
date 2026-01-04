@@ -10,6 +10,7 @@ import { Label, Button } from './';
 
 import 'react-international-phone/style.css';
 import { usePopup } from "../hooks/usePopup";
+import { useNotification } from "../hooks/useNotification";
 
 
 
@@ -54,6 +55,7 @@ const ForgotPassword = ({type = "email"}:ForgotPasswordProps) => {
   const [is_loading, set_is_loading] = useState<boolean>(false);
   const [is_loading_type, set_is_loading_type] = useState<boolean>(false);
   const {setOpen,setPopUp} = usePopup();
+  const {setOpenNotification, setNotification} = useNotification();
   const navigate = useNavigate();
 
   const {
@@ -81,6 +83,10 @@ const ForgotPassword = ({type = "email"}:ForgotPasswordProps) => {
   const onSubmit = (data: EmailPhoneInputs) => {
     console.log(data,'data');
     set_is_loading(true);
+    setTimeout(()=>{
+      setNotification({status:'success',message:`Follow the instruction in the ${password_type === 'email' ? 'Email' : 'SMS'}`});
+      setOpenNotification(true);
+    },1000)
     setTimeout(()=>{
       set_is_loading(false);
       setOpen(false);
@@ -136,7 +142,8 @@ const ForgotPassword = ({type = "email"}:ForgotPasswordProps) => {
                     defaultCountry={'ng'}
                     placeholder="7X-XXXXXXX"
                     inputStyle={{width:'100%',height: '45px'}}
-                    style={{height: '45px', border:'1px solid #E1E3ED'}}
+                    style={{height: '45px', border:'1px solid #E1E3ED', background:'transparent'}}
+                    className="bg-transparent"
                     {...field}
                     inputProps={{
                       id:'phone'
