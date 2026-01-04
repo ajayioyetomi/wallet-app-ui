@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import { useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
@@ -52,20 +53,22 @@ const ForgotPassword = ({type = "email"}:ForgotPasswordProps) => {
   const [password_type, set_password_type] = useState(type || "email"); 
   const [is_loading, set_is_loading] = useState<boolean>(false);
   const [is_loading_type, set_is_loading_type] = useState<boolean>(false);
-  const {setOpen,setPopUp} = usePopup()
+  const {setOpen,setPopUp} = usePopup();
+  const navigate = useNavigate();
 
   const {
     handleSubmit,
     formState: { errors },
     control,
     setValue,
-    // watch
+    watch
   } = useForm({
     resolver: yupResolver(password_type === "email" ? email_schema : phone_schema),
     defaultValues:{
       inp: ''
     }
   })
+  const inp = watch('inp')
     const handleToggleType = () =>{
     set_is_loading_type(true);
     let waiting = setTimeout(()=>{
@@ -80,6 +83,12 @@ const ForgotPassword = ({type = "email"}:ForgotPasswordProps) => {
     set_is_loading(true);
     setTimeout(()=>{
       set_is_loading(false);
+      setOpen(false);
+      setPopUp(<></>)
+      if(password_type === 'email')
+      navigate(`/otp?email=${inp}`)
+      else navigate(`/otp?phone=${inp}`);
+
     },2000)
   }
 

@@ -36,6 +36,9 @@ const login_schema = yup.object({
 const Login = () => {
   const [is_loading, set_is_loading] = useState<boolean>(false);
   const navigate = useNavigate();
+  const temp_data = JSON.parse(localStorage.getItem('wallet-app-data') || '{}');
+  let temp_phone = '';
+  if(temp_data?.phone)temp_phone = temp_data?.phone;
    const {
     handleSubmit,
     formState: { errors },
@@ -43,7 +46,7 @@ const Login = () => {
   } = useForm({
     resolver: yupResolver(login_schema),
     defaultValues:{
-      phone: ''
+      phone: temp_phone
     }
   })
 

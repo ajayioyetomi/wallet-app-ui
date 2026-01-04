@@ -91,7 +91,7 @@ const Password = () => {
             <BackArrowIcon className='active-icon-blue-400' />
             <span className='h-[24px] flex justify-center items-center pt-[2px]'>Back</span>
           </Link>
-          <Logo className='m'/>
+          <Logo />
         </div>
         <div className='flex justify-center items-center flex-1 origin-center zoom_in_out'>
           <picture>
@@ -128,7 +128,6 @@ const Password = () => {
                     
                   }
                 />
-                <PasswordStrength password={password}/>
                 <span className='text-red-500 text-xs text-center'>{errors?.password?.message}</span>
               </Label>
                 <div className='-mt-5 w-full max-w-[450px] flex justify-between items-center'>

@@ -6,6 +6,10 @@ import * as yup from 'yup';
 import { useForm, Controller } from "react-hook-form"
 
 import { Label, Button, PasswordStrength, Checkbox } from "../../components";
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
+import { PhoneInput} from 'react-international-phone';
+
+import 'react-international-phone/style.css';
 
 import FacebookLogo from '../../icons/facebook-icon.svg?react';
 import GoogleLogo from '../../icons/google-icon.svg?react';
@@ -21,9 +25,19 @@ type RegisterInputs = {
   email: string;
   password: string;
   accept:boolean | undefined;
+  phone:string;
 }
 
 const regiser_schema = yup.object({
+  phone: yup
+    .string()
+    .required('Phone number is required')
+    .test('is-valid-phone', 'Invalid phone number', (value) => {
+      if (!value) return false;
+      return (
+        parsePhoneNumberFromString(value)?.isValid() ?? false
+      );
+  }),
   name:yup
   .string()
   .required('Name is required')
@@ -48,15 +62,15 @@ const regiser_schema = yup.object({
       return is_valid_email ? true : false;
 
     }),
-    password: yup
-      .string()
-      .required('Password is required')
-      .min(6, 'Password must be at least 8 characters'),
-    accept: yup.boolean()
-    .required('You must accept the terms')
-    .test('is-accepted','Kindly accept terms and condition',(value) =>{
-      return Boolean(!value);
-    })
+  password: yup
+    .string()
+    .required('Password is required')
+    .min(6, 'Password must be at least 8 characters'),
+  accept: yup.boolean()
+  .required('You must accept the terms')
+  .test('is-accepted','Kindly accept terms and condition',(value) =>{
+    return Boolean(value);
+  })
 
 }).required();
 
@@ -74,6 +88,7 @@ const Register = () => {
     resolver: yupResolver(regiser_schema),
     defaultValues:{
       name: '',
+      phone:'',
       email:'',
       password:'',
       accept: window.localStorage.getItem('wallet-password') ? true : false,
@@ -86,8 +101,13 @@ const Register = () => {
     console.log(data,accept,'data');
     set_is_loading(true);
     // Simulate an async operation
+    window.localStorage.setItem('wallet-app-data',JSON.stringify({
+      name:data.name,
+      phone:data.phone,
+      email:data.email
+    }))
     setTimeout(() => {
-      navigate('/password');
+      navigate(`/otp?phone=${data.phone}`);
     }, 2000);
   }
 
@@ -102,7 +122,7 @@ const Register = () => {
         </div>
         <div className="flex-1 w-full flex justify-center items-end sm:items-center">
           <div className="w-full max-w-[500px] h-[fit-content] p-4 sm:p-2 ">
-            <h1 className="dark:text-white text-black mb-4 text-md sm:text-xl font-semibold sm:font-bold sm:text-center">Create Account</h1>
+            <h1 className="dark:text-white text-black mb-4 sm:mb-2 text-md sm:text-xl font-semibold sm:font-bold sm:text-center">Create Account</h1>
             <form className="flex flex-col gap-2" 
               onSubmit={handleSubmit(onSubmit)}
             >
@@ -122,6 +142,26 @@ const Register = () => {
                   }
                 />
                 <span className='text-red-500 text-xs text-center'>{errors?.name?.message}</span>   
+              </Label>
+              <Label className='w-full max-w-[450px]'>
+                  <span className='dark:text-white text-black text-xs'>Mobile number</span>
+                  <Controller
+                    name="phone"
+                    control={control}
+                    render={({ field }) =>      
+                      <PhoneInput
+                        defaultCountry={'ng'}
+                        placeholder="7X-XXXXXXX"
+                        inputStyle={{width:'100%',height: '45px'}}
+                        style={{height: '45px', border:'1px solid #E1E3ED'}}
+                        {...field}
+                        inputProps={{
+                          id:'phone'
+                        }}
+                      />  
+                    }
+                  />
+                  <span className='text-red-500 text-xs text-center'>{errors?.phone?.message}</span>
               </Label>
               <Label className="w-full">
                 <span className='dark:text-white text-black text-xs'>Email</span>
@@ -173,7 +213,7 @@ const Register = () => {
                   name="accept"
                   control={control}
                   render={() =>   
-                    <Checkbox checked={!accept} onChange={() => setValue('accept',!accept)} />
+                    <Checkbox checked={accept} onChange={() => setValue('accept',!accept)} />
                   }
                 />
                 <p className="dark:text-white text-black text-xs">
@@ -181,7 +221,7 @@ const Register = () => {
                 </p>
               </Label>
               <p className="text-xs text-red-500 text-left sm:text-center -mt-2">{errors?.accept?.message}</p>
-              <div className="w-full mt-4">
+              <div className="w-full mt-3">
                 <Button isLoading={is_loading} className="w-full bg-purple-400 text-white text-sm py-2 rounded-sm cursor-pointer flex justify-center items-center">Create a new account</Button>
                 <div className='w-full max-w-[450px] mt-4 flex gap-2 flex-col items-center justify-center'>
                   <div className='w-full flex gap-4 items-center'>
@@ -201,7 +241,7 @@ const Register = () => {
                     </Button>
                   </div>
                 </div>
-                <p className="w-full text-sm text-center text-black dark:text-white"><Link to="/login" className="w-full text-sm text-blue-400 text-semibold text-center">I already have an account?</Link></p>
+                <p className="w-full mt-2 text-sm text-center text-black dark:text-white"><Link to="/login" className="w-full text-sm text-blue-400 text-semibold">I already have an account?</Link></p>
 
               </div>
               
