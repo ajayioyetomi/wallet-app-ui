@@ -9,3 +9,9 @@ export function getPasswordStrength(password: string) {
 
   return score;
 }
+
+// auth.ts
+export function isAuthenticated(): boolean {
+  return Boolean(localStorage.getItem('token'));
+}
+

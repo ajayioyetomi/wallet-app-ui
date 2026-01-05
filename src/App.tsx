@@ -1,6 +1,7 @@
 import {Routes, Route} from 'react-router-dom'
 import PopUpProvider from './contexts/PopUpContext.tsx'
 import { Login, Welcome, Password, Dashboard, Register, OTP } from './screens';
+import { ProtectedRoutes } from './components/index.ts';
 import NotificationProvider from './contexts/NotificationContext.tsx';
 
 function App() {
@@ -15,7 +16,9 @@ function App() {
             <Route path='/password' element={<Password />} />
             <Route path="/register" element={<Register />} />
             <Route path="/otp" element={<OTP />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route element={<ProtectedRoutes />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+          </Route>
           </Routes>
       </PopUpProvider>
     </NotificationProvider>

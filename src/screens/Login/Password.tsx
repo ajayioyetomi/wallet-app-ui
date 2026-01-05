@@ -80,13 +80,14 @@ const Password = () => {
         window.localStorage.setItem('wallet-password',password);
       }
       else window.localStorage.removeItem('wallet-password');
-      navigate('/dashboard')
+      localStorage.setItem('token', 'fake-token');
+      navigate('/dashboard', { replace: true });
     }, 2000);
   }
 
   useEffect(()=>{
     if(puesdo_password){
-      // navigate('/dashboard');
+      navigate('/dashboard');
     }
   },[])
   return (

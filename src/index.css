@@ -161,6 +161,7 @@
   --font-size-5xl:48px;
   --font-size-6xl:60px;
 }
+
 *{
   box-sizing: border-box;
   font-family: "Sora", sans-serif;
@@ -170,6 +171,7 @@
 a {
   text-decoration: none
 }
+
 a:focus-visible,button:focus-visible, input:focus-visible,textarea:focus-visible {
   outline:transparent
 }
@@ -183,10 +185,10 @@ body::-webkit-scrollbar{
   width:0;
 }
 
-
 .zoom_in_out {
     animation: zoom_in_out 0.7s ease-in-out forwards;
 }
+
 .react-international-phone-country-selector-button{
   height:45px !important;
   width: 45px !important;
@@ -197,16 +199,17 @@ body::-webkit-scrollbar{
     fill: var(--color-purple-400);
   }
 }
+
 .active-icon-blue-400 {
   & > path{
     stroke: var(--color-blue-400);
   }
 }
 
-
 .animate-popup-d{
   animation: animate_popup_d .5s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
 }
+
 .animate-popup-m{
   animation: animate_popup_m .5s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
 }
@@ -214,12 +217,15 @@ body::-webkit-scrollbar{
 .status-bg-success{
   background-color: var(--color-green-100);
 }
+
 .status-bg-error{
   color: var(--color-red-100);
 }
+
 .status-success{
   color: var(--color-green-600);
 }
+
 .status-error{
   color: var(--color-red-600);
 }
@@ -272,6 +278,7 @@ body::-webkit-scrollbar{
   }
 
 }
+
 @keyframes animate_popup_m {
   0% {
     translate: 0 50dvh;
@@ -285,8 +292,6 @@ body::-webkit-scrollbar{
   }
 
 }
-
-
 
 @media (prefers-color-scheme: light) {
   body{
