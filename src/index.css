@@ -185,6 +185,36 @@ body::-webkit-scrollbar{
   width:0;
 }
 
+.dashboard-gradient{
+  background: linear-gradient(229.57deg, #5033A4 -0.79%, rgba(51, 16, 152, 0.65) 73%);
+
+}
+
+.icon-with-divider{
+  position: relative;
+  /* padding-inline: 40px; */
+
+  &::before{
+    position: absolute;
+    content: "";
+    display: inline-block;
+    background-color: var(--color-purple-200);
+    width:1px;
+    height:50%;
+    left:0;
+  }
+  &::after{
+    position: absolute;
+    content:"";
+    display:inline-block;
+    background-color: var(--color-purple-200);
+    width:1px;
+    height: 50%;
+    right:0;
+  }
+}
+
+
 .zoom_in_out {
     animation: zoom_in_out 0.7s ease-in-out forwards;
 }
@@ -203,6 +233,26 @@ body::-webkit-scrollbar{
 .active-icon-blue-400 {
   & > path{
     stroke: var(--color-blue-400);
+  }
+}
+
+.white-icon {
+  & > path{
+    fill: var(--color-white);
+  }
+}
+
+.gray-menu-icon {
+  & > path{
+    fill: var(--color-gray-400);
+    /* stroke: var(--color-gray-400); */
+  }
+}
+
+.active-menu-icon{
+    & > path{
+    fill: var(--color-purple-400);
+    stroke: var(--color-purple-400);
   }
 }
 
@@ -242,6 +292,7 @@ body::-webkit-scrollbar{
 .animate-notification{
   animation: animate_notification .5s linear  forwards;
 }
+
 
 @keyframes zoom_in_out {
     0% {

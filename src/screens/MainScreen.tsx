@@ -11,7 +11,7 @@ const MainScreen = ({children}:MainType) => {
         <aside className='w-full sm:w-[60px] md:w-[250px] h-[60-px] sm:h-full border-top-gray-200'>
             <Header />
         </aside>
-        <section className='flex-1 h-[calc(100% - 60px)] md:h-full p-2'>
+        <section className='flex-1 h-[calc(100% - 60px)] md:h-full'>
             {children}
         </section>
     </main>

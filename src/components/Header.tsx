@@ -1,20 +1,31 @@
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 import HomeIcon from '../icons/home-icon.svg?react';
 import HistoryIcon from '../icons/history-icon.svg?react';
 import CardIcon from '../icons/card-icon.svg?react';
 import MoreIcon from '../icons/more-icon.svg?react';
 
+
 const Header = () => {
   const temp_data = JSON.parse(localStorage.getItem('wallet-app-data') || '{}');
+  const [active_path, set_active_path] = useState('dashboard');
+  const location = useLocation();
   let temp_name = '';
   if(temp_data?.name)temp_name = temp_data?.name;
   const first_name = temp_name.split(' ')[0];
   const last_name = temp_name.split(' ')[1];
+
+  useEffect(()=>{
+    const first_path = location.pathname.split('/')[1];
+    set_active_path(first_path);
+    console.log(first_path,'path')
+  },[location.pathname])
+
   return (
     <header className='h-full text-black flex flex-row sm:flex-col justify-content border-gray-150 border-r-0 border-t-1 sm:border-r-1 sm:border-t-0'>
         <div className="w-full hidden sm:flex justify-center md:justify-start text-md font-semibold ">
-          <span className="p-2  text-blue-400 hidden md:flex">Welcome 
+          <span className="p-2  text-blue-400 hidden md:flex">Welcome,
             <span className="ml-2">
               {first_name.length > 10 ? `${first_name.slice(0,7)}...`: first_name}
             </span>
@@ -23,39 +34,39 @@ const Header = () => {
             {first_name.charAt(0)}{last_name.charAt(0)}
           </span>
         </div>
-        <ul className="m-0 p-0">
-          <li>
-            <Link className="flex gap-1 items-center" to="/dashoard">
+        <ul className="w-full m-0 p-0 sm:mt-4 flex flex-row sm:flex-col justify-between sm:justify-start">
+          <li className="flex-1">
+            <Link className={`flex flex-col sm:flex-row gap-0 sm:gap-2 items-center p-1 sm:p-2 ${active_path === 'dashboard' ?'border-purple-400':'border-transparent'} border-t-2 sm:border-t-0 sm:border-l-2 sm:justify-center md:justify-start`} to="/dashboard">
               <span>
-                <HomeIcon />
+                <HomeIcon className={`${active_path === "dashboard" ? 'active-menu-icon':'gray-menu-icon'}`} />
               </span>
-              <span>Home</span>
+              <span className={`inline-block sm:hidden md:inline-block text-xs sm:text-sm font-semibold ${active_path === "dashboard" ?'text-purple-400':'text-black'}`}>Home</span>
             </Link>
           </li>
-          <li>
-            <Link className="flex gap-1 items-center" to="">
+          <li className="flex-1">
+            <Link className={`flex flex-col sm:flex-row gap-0 sm:gap-2 items-center text-gray-600 p-1 sm:p-2 ${active_path === 'history' ?'border-purple-400':'border-transparent'}  border-t-2 sm:border-t-0 sm:border-l-2 sm:justify-center md:justify-start`} to="/history">
               <span>
-                <HistoryIcon />
+                <HistoryIcon className={`${active_path === "history" ? 'active-menu-icon':'gray-menu-icon'}`} />
               </span>
-              <span>History</span>
+              <span className={`inline-block sm:hidden md:inline-block text-xs sm:text-sm font-semibold ${active_path === "history" ?'text-purple-400':'text-black'}`}>History</span>
             </Link>
           </li>
-          <li>
-            <Link className="flex gap-1 items-center" to="">
+          <li className="flex-1">
+            <Link className={`flex flex-col sm:flex-row gap-0 sm:gap-2 items-center text-gray-600 p-1 sm:p-2 ${active_path === 'cards' ?'border-purple-400':'border-transparent'}  border-t-2 sm:border-t-0 sm:border-l-2 sm:justify-center md:justify-start`} to="/cards">
               <span>
-                <CardIcon />
+                <CardIcon className={`${active_path === "cards" ? 'active-menu-icon':'gray-menu-icon'}`} />
               </span>
-              <span>
+              <span className={`inline-block sm:hidden md:inline-block text-xs sm:text-sm font-semibold ${active_path === "cards" ?'text-purple-400':'text-black'}`}>
                 Cards
               </span>
             </Link>
           </li>
-          <li>
-            <Link className="flex gap-1 items-center" to="">
+          <li className="flex-1">
+            <Link className={`flex flex-col sm:flex-row gap-0 sm:gap-2 items-center text-gray-600 p-1 sm:p-2 ${active_path === 'more' ?'border-purple-400':'border-transparent'}  border-t-2 sm:border-t-0 sm:border-l-2 sm:justify-center md:justify-start`} to="/more">
               <span>
-                <MoreIcon />
+                <MoreIcon className={`${active_path === "more" ? 'active-menu-icon':'gray-menu-icon'}`} />
               </span>
-              <span>More</span>
+              <span className={`inline-block sm:hidden md:inline-block text-xs sm:text-sm font-semibold ${active_path === "more" ?'text-purple-400':'text-black'}`}>More</span>
             </Link>
           </li>
         </ul>

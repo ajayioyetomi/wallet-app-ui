@@ -32,10 +32,11 @@ const login_schema = yup.object({
 
 
 const Password = () => {
-  const puesdo_password = window.localStorage.getItem('wallet-password');
+  const auto_login = window.localStorage.getItem('wallet-reminder');
   const [is_loading, set_is_loading] = useState<boolean>(false);
   const [show_password, set_show_password] = useState<boolean>(false);
-  const [remember_me, set_remember_me] = useState<boolean>(Boolean(puesdo_password));
+  const [remember_me, set_remember_me] = useState<boolean>(Boolean(auto_login));
+  
   const navigate = useNavigate();
 
   const {setOpen,setPopUp} = usePopup();
@@ -52,20 +53,24 @@ const Password = () => {
       password: ''
     }
   })
-  const password = watch('password','')
+
+  const password = watch('password','');
+
   const updateRememberMe = () =>{
     set_remember_me(!remember_me);
     if(!remember_me){
-      window.localStorage.setItem('wallet-password',password);
+      window.localStorage.setItem('wallet-reminder','kindly remember');
       return;
     }
-    window.localStorage.removeItem('wallet-password');
+    window.localStorage.removeItem('wallet-reminder');
   }
+
   const handleForgotPassword = () =>{
     console.log('testing popup')
     setPopUp(<ForgotPassword type="email" />);
     setOpen(true);
   }
+
   const onSubmit = (data: LoginFormInputs) => {
     console.log(data);
     set_is_loading(true);
@@ -86,10 +91,11 @@ const Password = () => {
   }
 
   useEffect(()=>{
-    if(puesdo_password){
+    if(auto_login){
       navigate('/dashboard');
     }
   },[])
+
   return (
     <section className='dark:bg-black bg-white flex flex-col md:flex-row  w-screen h-screen'>
       <div className="dark:bg-purple-900 bg-purple-50 w-full md:w-1/2 h-full md:h-screen flex flex-col align-center overflow-hidden">

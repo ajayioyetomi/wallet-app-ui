@@ -1,4 +1,8 @@
-import type { LabelProps } from '../types'
+import React from "react"
+
+type LabelProps = React.LabelHTMLAttributes<HTMLLabelElement> & {
+  children: React.ReactNode
+} 
 
 const Label = ({ children, className }: LabelProps) => {
   return (
