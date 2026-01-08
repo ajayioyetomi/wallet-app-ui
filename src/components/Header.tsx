@@ -1,37 +1,30 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-import HomeIcon from '../icons/home-icon.svg?react';
-import HistoryIcon from '../icons/history-icon.svg?react';
-import CardIcon from '../icons/card-icon.svg?react';
-import MoreIcon from '../icons/more-icon.svg?react';
+import { useUser } from "../hooks/useUser";
+import {HomeIcon,HistoryIcon,CardIcon,MoreIcon} from '../icons';
 
 
 const Header = () => {
-  const temp_data = JSON.parse(localStorage.getItem('wallet-app-data') || '{}');
+  const {first_name,last_name} = useUser();
   const [active_path, set_active_path] = useState('dashboard');
   const location = useLocation();
-  let temp_name = '';
-  if(temp_data?.name)temp_name = temp_data?.name;
-  const first_name = temp_name.split(' ')[0];
-  const last_name = temp_name.split(' ')[1];
 
   useEffect(()=>{
     const first_path = location.pathname.split('/')[1];
     set_active_path(first_path);
-    console.log(first_path,'path')
   },[location.pathname])
 
   return (
-    <header className='h-full text-black flex flex-row sm:flex-col justify-content border-gray-150 border-r-0 border-t-1 sm:border-r-1 sm:border-t-0'>
+    <header className='h-full text-black flex flex-row sm:flex-col justify-content border-gray-150 border-r-0 border-t sm:border-r sm:border-t-0'>
         <div className="w-full hidden sm:flex justify-center md:justify-start text-md font-semibold ">
           <span className="p-2  text-blue-400 hidden md:flex">Welcome,
             <span className="ml-2">
               {first_name.length > 10 ? `${first_name.slice(0,7)}...`: first_name}
             </span>
           </span>
-          <span className="hidden sm:flex md:hidden mt-2 justify-center items-center rounded-[50%] w-[40px] h-[40px] bg-purple-600 text-md text-white font-semibold">
-            {first_name.charAt(0)}{last_name.charAt(0)}
+          <span className="hidden sm:flex md:hidden mt-2 justify-center items-center rounded-[50%] w-10 h-10 bg-purple-600 text-md text-white font-semibold">
+            {first_name?.charAt(0)}{last_name?.charAt(0)}
           </span>
         </div>
         <ul className="w-full m-0 p-0 sm:mt-4 flex flex-row sm:flex-col justify-between sm:justify-start">

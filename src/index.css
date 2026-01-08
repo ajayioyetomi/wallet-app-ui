@@ -185,6 +185,16 @@ body::-webkit-scrollbar{
   width:0;
 }
 
+.no-x-scroll::-webkit-scrollbar{
+  height:0;
+  width: 0;
+}
+
+.no-y-scroll::-webkit-scrollbar{
+  height:0;
+  width: 0;
+}
+
 .dashboard-gradient{
   background: linear-gradient(229.57deg, #5033A4 -0.79%, rgba(51, 16, 152, 0.65) 73%);
 
@@ -343,6 +353,7 @@ body::-webkit-scrollbar{
   }
 
 }
+
 
 @media (prefers-color-scheme: light) {
   body{

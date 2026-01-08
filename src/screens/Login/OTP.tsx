@@ -1,16 +1,14 @@
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import {useForm, Controller} from 'react-hook-form';
 import * as yup from 'yup';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useNotification } from "../../hooks/useNotification";
 
 import { Button } from "../../components";
 
-import BackArrowIcon from '../../icons/back-arrow-icon.svg?react';
-import BigCheckboxCircleIcon from '../../icons/big-checkbox-circle.svg?react';
-import DeleteIcon from '../../icons/delete-icon.svg?react';
-import Logo from '../../icons/logo.svg?react';
-import { useEffect, useState } from "react";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useNotification } from "../../hooks/useNotification";
+import {BackArrowIcon,BigCheckboxCircleIcon,DeleteIcon,Logo} from '../../icons';
+
 
 const otp_scheme = yup.object({
   otp: yup

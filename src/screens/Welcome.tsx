@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import Logo from '../icons/splash-logo.svg?react'
+import {Logo} from '../icons';
+
 const Welcome = () => {
   const navigate = useNavigate();
   setTimeout(() => {

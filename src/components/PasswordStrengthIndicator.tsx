@@ -19,9 +19,9 @@ export function PasswordStrength({ password }: Props) {
     return null;
   }
   return (
-    <div className='relative z-1 -top-[5px]'>
+    <div className='relative z-1 -top-1.25'>
       <div
-        className='h-[6px] w-full bg-gray-150 rounded-sm overflow-hidden'
+        className='h-1.5 w-full bg-gray-150 rounded-sm overflow-hidden'
       >
         <div
           className='h-full'
@@ -33,7 +33,7 @@ export function PasswordStrength({ password }: Props) {
         />
       </div>
       <p
-        className='mt-[4px] text-xs text-left sm:text-center'
+        className='mt-1 text-xs text-left sm:text-center'
         style={{
           color: strength.color,
         }}

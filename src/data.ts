@@ -1,4 +1,4 @@
-import { type EachTransactionType } from "./types";
+import { type EachTransactionType, type EachBeneficiaryType } from "./types";
 
 
 type RandomDateOptions = {
@@ -9,8 +9,8 @@ type RandomDateOptions = {
 const generateRandomId = () => crypto.randomUUID() as string;
 
 const generateRandomDate = ({
-  from = new Date(2026, 0, 1),
-  to = new Date(2026,2,3),
+  from = new Date(new Date().setDate(new Date().getDate() - 20)),
+  to = new Date(),
 }: RandomDateOptions = {}): string => {
   const fromTime = from.getTime();
   const toTime = to.getTime();
@@ -48,15 +48,16 @@ const  generateRandomName = (): string => {
     firstNames[Math.floor(Math.random() * firstNames.length)];
   const last =
     lastNames[Math.floor(Math.random() * lastNames.length)];
-
-  return `${first} ${last}`;
+  const name = `${first} ${last}`;
+  return name;
 }
 
 const generateBeneficiaryAvatar = (): string =>{
+  const index = Math.floor(Math.random() * 4);
   return [
     '/assets/avatar-1.webp','/assets/avatar-2.webp',
     '/assets/avatar-3.webp','/assets/avatar-4.webp'
-  ][Math.floor(Math.random() * 5)] as string
+  ][index] as string
 }
 
 const generatePaymentAvatar = (name:string): string =>{
@@ -91,8 +92,9 @@ const generatePaymentDetail = () =>{
             description:"Balance top up"
         }
     ]
-
-    return availableDetails[Math.random() * 7]
+    const details = availableDetails[Math.floor(Math.random() * 6)];
+    // console.log(details,'details')
+    return details;
 }
 
 const generatePaymentDetailLabel = () =>{
@@ -116,16 +118,14 @@ function generateArrayFromItems<EachTransactionType>(
   );
 }
 
-
 const generateIndividualTransaction = () : EachTransactionType =>{
     return {
-        id:generateRandomId(),
-        date: generateRandomDate(),
-        amount: generateRandomAmount(),
-        type: generateRandomTransacitonType(),
-        beneficiaryName: generateRandomName(),
-        isPayment: false,
-        avatar: generateBeneficiaryAvatar(),
+      id:generateRandomId(),
+      date: generateRandomDate(),
+      amount: generateRandomAmount(),
+      type: generateRandomTransacitonType(),
+      isPayment: false,
+      beneficiary:generateBeneficiaryDetails(),
     }
 }
 
@@ -135,16 +135,53 @@ const generatePaymentTransaction = () : EachTransactionType =>{
         id:generateRandomId(),
         date: generateRandomDate(),
         amount: generateRandomAmount(),
-        type: generateRandomTransacitonType(),
-        beneficiaryName: paymentDetailsLabel.beneficiaryName,
+        type: paymentDetailsLabel?.beneficiaryName === "Top up" ? "credit" : generateRandomTransacitonType(),
         transactionDescription: paymentDetailsLabel.beneficiaryDescription,
         isPayment: false,
-        avatar: generatePaymentAvatar(paymentDetailsLabel.beneficiaryName)
+        beneficiary:gneneratePaymentDetails(),
     }
 }
 
+function generateSecureAccountNumber(): string {
+  const array = new Uint32Array(10);
+  crypto.getRandomValues(array);
+  return Array.from(array, n => (n % 10).toString()).join("");
+}
+
+const generateBeneficiaryDetails = ():EachBeneficiaryType =>{
+    const name =  generateRandomName();
+    const details:EachBeneficiaryType = {
+      id:generateRandomId(),
+      name,
+      accountName:name,
+      accountNumber:generateSecureAccountNumber(),
+      avatar: generateBeneficiaryAvatar(),
+    }  
+    return details; 
+}
+
+const gneneratePaymentDetails = ():EachBeneficiaryType =>{
+  const paymentDetailsLabel = generatePaymentDetailLabel();
+  const name = paymentDetailsLabel.beneficiaryName;
+  const details:EachBeneficiaryType = {
+    id:generateRandomId(),
+    name,
+    accountName:name,
+    avatar: generatePaymentAvatar(name),
+    accountNumber:generateSecureAccountNumber(),
+  }
+  return details;
+}
+
+const generateMultipleBeneficiaryDetails = (length:number = 10) =>{
+  let list:EachBeneficiaryType[] = []
+  for(let i = 0; i < length; i++){
+    list.push(generateBeneficiaryDetails());
+  }
+  return list;
+}
 
 
+export const sample_transactions: EachTransactionType[] = generateArrayFromItems([generateIndividualTransaction,generatePaymentTransaction],15);
 
-
-export const sample_transactions: EachTransactionType[] = generateArrayFromItems([generateIndividualTransaction,generatePaymentTransaction],15)
+export const sample_beneficiaries: EachBeneficiaryType[] = generateMultipleBeneficiaryDetails();

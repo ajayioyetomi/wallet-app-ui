@@ -6,15 +6,11 @@ import * as yup from "yup"
 import { Link, useNavigate } from 'react-router-dom';
 import { usePopup } from '../../hooks/usePopup';
 import { Label, Button, ForgotPassword } from '../../components';
-
-import Logo from '../../icons/logo.svg?react';
-import PasswordIcon from '../../icons/password-icon.svg?react';
-import TextIcon from '../../icons/text-icon.svg?react';
-import EmptyCheckIcon from '../../icons/check-blank-icon.svg?react';
-import FilledCheckIcon from '../../icons/check-fill-icon.svg?react';
-import BackArrowIcon from '../../icons/back-arrow-icon.svg?react';
-import PasswordImage from '../../assets/password-image.webp';
 import { useNotification } from '../../hooks/useNotification';
+
+import {Logo,PasswordIcon,TextIcon,EmptyCheckIcon,FilledCheckIcon,BackArrowIcon} from '../../icons';
+import PasswordImage from '../../assets/password-image.webp';
+
 
 
 

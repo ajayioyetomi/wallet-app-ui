@@ -1,7 +1,6 @@
 import React from 'react'
 
-import EmptyCheckIcon from '../icons/check-blank-icon.svg?react';
-import FilledCheckIcon from '../icons/check-fill-icon.svg?react';
+import {EmptyCheckIcon,FilledCheckIcon} from '../icons';
 
 type CheckboxProps =  React.InputHTMLAttributes<HTMLInputElement> & {
     checked:boolean | undefined,

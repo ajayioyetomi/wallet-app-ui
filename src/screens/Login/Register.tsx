@@ -4,22 +4,15 @@ import { Link, useNavigate } from "react-router-dom"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from 'yup';
 import { useForm, Controller } from "react-hook-form"
+import { useUser } from "../../hooks/useUser";
 
 import { Label, Button, PasswordStrength, Checkbox } from "../../components";
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import { PhoneInput} from 'react-international-phone';
-
-import 'react-international-phone/style.css';
-
-import FacebookLogo from '../../icons/facebook-icon.svg?react';
-import GoogleLogo from '../../icons/google-icon.svg?react';
-import AppleLogo from '../../icons/apple-icon.svg?react';
-import BackArrowIcon from '../../icons/back-arrow-icon.svg?react';
-import PasswordIcon from '../../icons/password-icon.svg?react';
-import TextIcon from '../../icons/text-icon.svg?react';
-import Logo from '../../icons/logo.svg?react';
 import { useNotification } from "../../hooks/useNotification";
 
+import 'react-international-phone/style.css';
+import {FacebookLogo,GoogleLogo,AppleLogo,BackArrowIcon,PasswordIcon,TextIcon,Logo} from '../../icons';
 
 type RegisterInputs = {
   name: string;
@@ -79,7 +72,8 @@ const Register = () => {
   const [show_password, set_show_password] = useState<boolean>(false);
   const [is_loading, set_is_loading] = useState<boolean>(false);
   const navigate = useNavigate();
-  const {setNotification,setOpenNotification} = useNotification()
+  const {setNotification,setOpenNotification} = useNotification();
+  const {setUserData} = useUser();
   const {
     handleSubmit,
     formState: { errors },
@@ -108,6 +102,12 @@ const Register = () => {
       phone:data.phone,
       email:data.email
     }))
+    setUserData({
+      name:data.name,
+      phone:data.phone,
+      email:data.email
+    })
+    
     setTimeout(() => {
       setNotification({status:'success',message:'Registrated successfully'});
       setOpenNotification(true);

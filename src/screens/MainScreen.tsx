@@ -8,10 +8,10 @@ type MainType = {
 const MainScreen = ({children}:MainType) => {
   return (
     <main className='fixed left-0 top-0 w-screen h-screen flex flex-col-reverse sm:flex-row'>
-        <aside className='w-full sm:w-[60px] md:w-[250px] h-[60-px] sm:h-full border-top-gray-200'>
+        <aside className='w-full sm:w-15 md:w-62.5 h-15 max-h-15 sm:h-full sm:max-h-full border-top-gray-200'>
             <Header />
         </aside>
-        <section className='flex-1 h-[calc(100% - 60px)] md:h-full'>
+        <section className='flex-1 h-[calc(100% - 60px)] md:h-full overflow-x-clip overflow-y-auto no-y-scroll'>
             {children}
         </section>
     </main>

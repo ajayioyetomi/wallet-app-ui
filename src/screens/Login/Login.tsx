@@ -10,10 +10,7 @@ import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import { PhoneInput} from 'react-international-phone';
 
 import 'react-international-phone/style.css';
-import Logo from '../../icons/logo.svg?react';
-import FacebookLogo from '../../icons/facebook-icon.svg?react';
-import GoogleLogo from '../../icons/google-icon.svg?react';
-import AppleLogo from '../../icons/apple-icon.svg?react';
+import {Logo,FacebookLogo,GoogleLogo,AppleLogo} from '../../icons'
 import LoginImage from '../../assets/login-image.webp';
 
 type LoginFormInputs = {
