@@ -5,3 +5,5 @@ export { PasswordStrength } from './PasswordStrengthIndicator'
 export {default as Checkbox} from './Checkbox'
 export {default as ProtectedRoutes} from './ProtectedRoutes'
 export {default as Header} from './Header';
+export {default as TransactionCard} from './TransactionCard';
+export {default as TransactionDetailsModal} from './TransactionDetailsModal';

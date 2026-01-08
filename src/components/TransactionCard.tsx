@@ -13,7 +13,7 @@ export type TransactionCardProps = {
 
 const TransactionCard = (props:TransactionCardProps) => {
   return (
-    <Button className={`w-full py-4 border-gray-100 flex items-center justify-between cursor-pointer ${props?.className}`}>
+    <Button className={`w-full py-4 border-gray-100 flex items-center justify-between cursor-pointer ${props?.className}`} onClick={props?.onClick}>
         <div className='flex gap-2 items-center'>
             <img src={props.avatar} className='w-8 h-8'/>
             <span className='flex items-start flex-col text-xs gap-0.5'>

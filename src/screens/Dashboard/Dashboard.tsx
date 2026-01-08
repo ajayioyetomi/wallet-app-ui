@@ -4,17 +4,21 @@ import SettingsIcon from '../../icons/settings-icon.svg?react';
 import { Link } from "react-router-dom";
 import { useUser } from "../../hooks/useUser";
 import { useData } from "../../hooks/useData";
-
-import {TopupIcon, WithdrawIcon, TransferIcon, PlusIcon} from '../../icons';
+import { usePopup } from "../../hooks/usePopup";
+import {TransactionCard,TransactionDetailsModal} from "../../components";
 import type { EachBeneficiaryType, EachTransactionType } from "../../types";
 import { formatDate } from "../../utils";
-import TransactionCard from "../../components/TransactionCard";
+
+import {TopupIcon, WithdrawIcon, TransferIcon, PlusIcon} from '../../icons';
+
+
 
 
 
 const Dashboard = () => {
   const {first_name} = useUser();
   const {beneficiaries,transactions} = useData();
+  const {setOpen,setPopUp} = usePopup();
   const uniqueBeneficiaries = beneficiaries.filter((eachBeneficiary:EachBeneficiaryType, index:number) => {
     if(index === 0) return true;
     let already_exist = beneficiaries.slice(0,index).some((each:EachBeneficiaryType) => each.name.split(' ')[0] === eachBeneficiary.name.split(' ')[0])
@@ -27,6 +31,13 @@ const Dashboard = () => {
       date:formated_date,
     }
   })
+
+  const showTransactionPopUp = (transaction:EachTransactionType) =>{
+    setPopUp(<TransactionDetailsModal {...transaction}   />);
+    setOpen(true)
+  }
+
+
   // ?.reduce((accu:[EachTransactionType[],EachTransactionType[],EachTransactionType[]],next:EachTransactionType):[EachTransactionType[],EachTransactionType[],EachTransactionType[]] => {
   //   const date = next.date;
   //   if(date.toLowerCase().includes('today')){
@@ -117,6 +128,7 @@ const Dashboard = () => {
               formated_transactions && formated_transactions.length > 0 ? 
               formated_transactions.map((eachTransaction:EachTransactionType,index:number) => 
                 <TransactionCard 
+                    onClick={()=>showTransactionPopUp(eachTransaction)}
                     key={eachTransaction.id} name={eachTransaction.beneficiary.name}
                     avatar={eachTransaction.beneficiary.avatar} type={eachTransaction.type}
                     date={eachTransaction.date} amount={eachTransaction.amount} 
